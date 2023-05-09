@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 
-import * as request from '~/utils/request';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
 import { useDebounce } from '~/hooks';
+import * as searchServices from  '~/apiServices/searchServices'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -32,25 +32,14 @@ function Search() {
             return;
         }
 
-        setLoading(true);
-
-        const fetchAPI = async () => {
-            try {
-                const res = await request.get(`users/search`, {
-                    params: {
-                        q: debounced,
-                        type: 'less'
-                    }
-                });
-                setSearchResult(res.data);
-                setLoading(false);
-
-            } catch (error) {
-                setLoading(false);
-            }
-            
+        
+        const fetchApi = async () => {
+            const result = await searchServices.search(debounced);
+            setSearchResult(result);
+            setLoading(false);
         }
-        fetchAPI();
+        fetchApi();
+        
       
     }, [debounced]);
 
