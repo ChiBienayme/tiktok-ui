@@ -16,6 +16,7 @@ const cx = classNames.bind(styles);
 function Search() {
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
+    const [showResult, setShowResult] = useState(true);
 
     const inputRef = useRef();
 
@@ -30,10 +31,14 @@ function Search() {
         }, 0);
     }, []);
 
+    const handleHideResult = () => {
+        setShowResult(false)
+    }
+
     return (
         <HeadlessTippy
             interactive
-            visible={searchResult.length > 0}
+            visible={showResult && searchResult.length > 0}
             render={(attrs) => (
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
@@ -42,9 +47,11 @@ function Search() {
                         <AccountItem />
                         <AccountItem />
                         <AccountItem />
+                        <AccountItem />
                     </PopperWrapper>
                 </div>
             )}
+            onClickOutside={handleHideResult}
         >
             <div className={cx('search')}>
                 <input
@@ -53,6 +60,7 @@ function Search() {
                     placeholder="Search accounts and videos"
                     spellCheck={false}
                     onChange={(e) => setSearchValue(e.target.value)}
+                    onFocus={(() => setShowResult(true))}
                 />
 
                 {!!searchValue && (
