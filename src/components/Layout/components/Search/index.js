@@ -22,6 +22,7 @@ function Search() {
 
     const handleClear = () => {
         setSearchValue('');
+        setSearchResult([]);
         inputRef.current.focus();
     }
 
