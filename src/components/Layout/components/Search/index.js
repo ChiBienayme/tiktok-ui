@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 
-import request from '~/utils/request';
+import * as request from '~/utils/request';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
@@ -35,20 +35,20 @@ function Search() {
 
         setLoading(true);
 
-        request
-            .get(`users/search`, {
-                params: {
-                    q: debounced,
-                    type: 'less'
-                }
-            })
-            .then(res => {
-                setSearchResult(res.data.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            })
+      
+        request.get(`users/search`, {
+            params: {
+                q: debounced,
+                type: 'less'
+            }
+        })
+        .then(res => {
+            setSearchResult(res.data);
+            setLoading(false);
+        })
+        .catch(() => {
+            setLoading(false);
+        })
     }, [debounced]);
 
     const handleClear = () => {
