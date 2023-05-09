@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 
@@ -34,10 +35,15 @@ function Search() {
 
         setLoading(true);
 
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
-            .then(res => res.json())
+        axios
+            .get(`https://tiktok.fullstack.edu.vn/api/users/search`, {
+                params: {
+                    q: debounced,
+                    type: 'less'
+                }
+            })
             .then(res => {
-                setSearchResult(res.data);
+                setSearchResult(res.data.data);
                 setLoading(false);
             })
             .catch(() => {
@@ -99,6 +105,7 @@ function Search() {
                 <button className={cx('search-btn')}>
                     <SearchIcon />
                 </button>
+
             </div>
         </HeadlessTippy>
     );
