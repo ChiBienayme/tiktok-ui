@@ -31,11 +31,14 @@ function Search() {
             setSearchResult([]);
             return;
         }
-
         
         const fetchApi = async () => {
+            setLoading(true);
+
             const result = await searchServices.search(debounced);
+            
             setSearchResult(result);
+
             setLoading(false);
         }
         fetchApi();
