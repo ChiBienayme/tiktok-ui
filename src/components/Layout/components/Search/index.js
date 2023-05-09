@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 
@@ -7,17 +7,22 @@ import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCircleXmark,
-    faSpinner,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Search.module.scss';
 
 const cx = classNames.bind(styles);
 
 function Search() {
+    const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
+
+    const inputRef = useRef();
+
+    const handleClear = () => {
+        setSearchValue('');
+        inputRef.current.focus();
+    }
 
     useEffect(() => {
         setTimeout(() => {
@@ -25,7 +30,7 @@ function Search() {
         }, 0);
     }, []);
 
-    return ( 
+    return (
         <HeadlessTippy
             interactive
             visible={searchResult.length > 0}
@@ -42,23 +47,31 @@ function Search() {
             )}
         >
             <div className={cx('search')}>
-                <input placeholder="Search accounts and videos" spellCheck={false} />
+                <input
+                    ref={inputRef}
+                    value={searchValue}
+                    placeholder="Search accounts and videos"
+                    spellCheck={false}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                />
 
-                <button className={cx('clear')}>
-                    <FontAwesomeIcon icon={faCircleXmark} />
-                </button>
+                {!!searchValue && (
+                    <button
+                        className={cx('clear')}
+                        onClick={handleClear}
+                    >
+                        <FontAwesomeIcon icon={faCircleXmark} />
+                    </button>
+                )}
 
-                <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
+                {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
 
                 <button className={cx('search-btn')}>
-                    <SearchIcon/>
+                    <SearchIcon />
                 </button>
             </div>
         </HeadlessTippy>
-     );
+    );
 }
 
 export default Search;
-
-
-
