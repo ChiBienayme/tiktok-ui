@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 
+import request from '~/utils/request';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
@@ -35,8 +35,8 @@ function Search() {
 
         setLoading(true);
 
-        axios
-            .get(`https://tiktok.fullstack.edu.vn/api/users/search`, {
+        request
+            .get(`users/search`, {
                 params: {
                     q: debounced,
                     type: 'less'
