@@ -20,17 +20,21 @@ function Search() {
 
     const inputRef = useRef();
 
+    useEffect(() => {
+        fetch('https://tiktok.fullstack.edu.vn/api/users/search?q=hoaa&type=less')
+            .then(res => res.json())
+            .then(res => {
+                setSearchResult(res.data);
+            })
+    }, [searchValue]);
+
     const handleClear = () => {
         setSearchValue('');
         setSearchResult([]);
         inputRef.current.focus();
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 1, 1, 1]);
-        }, 0);
-    }, []);
+    
 
     const handleHideResult = () => {
         setShowResult(false)
@@ -44,11 +48,11 @@ function Search() {
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         <h4 className={cx('search-title')}>Accounts</h4>
+                        {searchResult.map((result) => (
+                            <AccountItem key={result.id} data={result}/>
 
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
+                        ))}
+
                     </PopperWrapper>
                 </div>
             )}
