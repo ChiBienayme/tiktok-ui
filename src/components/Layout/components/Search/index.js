@@ -32,23 +32,26 @@ function Search() {
             return;
         }
 
-
         setLoading(true);
 
-      
-        request.get(`users/search`, {
-            params: {
-                q: debounced,
-                type: 'less'
+        const fetchAPI = async () => {
+            try {
+                const res = await request.get(`users/search`, {
+                    params: {
+                        q: debounced,
+                        type: 'less'
+                    }
+                });
+                setSearchResult(res.data);
+                setLoading(false);
+
+            } catch (error) {
+                setLoading(false);
             }
-        })
-        .then(res => {
-            setSearchResult(res.data);
-            setLoading(false);
-        })
-        .catch(() => {
-            setLoading(false);
-        })
+            
+        }
+        fetchAPI();
+      
     }, [debounced]);
 
     const handleClear = () => {
