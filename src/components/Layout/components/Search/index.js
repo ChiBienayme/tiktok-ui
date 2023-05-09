@@ -21,7 +21,12 @@ function Search() {
     const inputRef = useRef();
 
     useEffect(() => {
-        fetch('https://tiktok.fullstack.edu.vn/api/users/search?q=hoaa&type=less')
+
+        if (!searchValue.trim()) {
+            return
+        }
+
+        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
             .then(res => res.json())
             .then(res => {
                 setSearchResult(res.data);
