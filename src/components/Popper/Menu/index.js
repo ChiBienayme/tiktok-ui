@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 const defaultFN = () => {};
 
-function Menu({ children, items = [], hideOnClick = false , onChange = defaultFN }) {
+function Menu({ children, items = [], hideOnClick = false, onChange = defaultFN }) {
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
 
@@ -53,7 +53,7 @@ function Menu({ children, items = [], hideOnClick = false , onChange = defaultFN
                                 }}
                             />
                         )}
-                        {renderItems()}
+                        <div className={cx('menu-body')}>{renderItems()}</div>
                     </PopperWrapper>
                 </div>
             )}
