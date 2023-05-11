@@ -1,13 +1,23 @@
 import classNames from 'classnames/bind';
-import styles from './Sidebar.module.scss'
+import styles from './Sidebar.module.scss';
+import Menu, { MenuItem } from './Menu';
+import { HomeIcon, HomeActiveIcon, UserGroupIcon, UserGroupActiveIcon, LiveIcon, LiveActiveIcon } from '~/components/Icons';
+import config from '~/config';
 
-
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 function Sidebar() {
-    return <aside className={cx('wrapper')}>
-        <h2>Sidebar</h2>
-    </aside>;
+    return (
+        <aside className={cx('wrapper')}>
+            <Menu>
+                <MenuItem title="For You" to={config.routes.home} icon={<HomeActiveIcon />} activeIcon={<HomeIcon/>} />
+
+                <MenuItem title="Following" to={config.routes.following} icon={<UserGroupIcon />} activeIcon={<UserGroupActiveIcon/>}/>
+
+                <MenuItem title="LIVE" to={config.routes.live} icon={<LiveActiveIcon />} activeIcon={<LiveIcon/>}/>
+            </Menu>
+        </aside>
+    );
 }
 
 export default Sidebar;
